@@ -1,4 +1,1 @@
-# This program contains the logic of the game for Connect Four
-
-import board
-import player
+# This program codes for a game of Connect Four on the terminal
