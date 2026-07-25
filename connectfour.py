@@ -53,12 +53,26 @@ def winningMove(board, piece):
             if board[r][c] == piece and board[r-1][c+1] == piece and board[r-2][c+2] == piece and board[r-3][c+3] == piece:
                 return True
             
+# Draw the board to the pygame graphics
+def drawBoard(board):
+    pass
+            
 board = createBoard()
 print(board)
 gameOver: bool = False
 turn: int = 0         # This defines whose turn it is to play 
+
 pygame.init()
 
+# ====== Defining the  screen size =========
+SQUARESIZE: int = 100 # each square size is 100 pixels
+width: int = COLUMN_COUNT * SQUARESIZE
+height: int = (ROW_COUNT+1) * SQUARESIZE
+
+size: tuple = (width, height)
+
+screen = pygame.display.set_mode(size)
+# ======== end of defining the screen size=======
 
 while not gameOver:
     # Ask for Player 1 Input
