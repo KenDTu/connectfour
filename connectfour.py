@@ -1,5 +1,6 @@
 # This program codes for a game of Connect Four on the terminal
 import numpy as np
+import pygame
 
 ROW_COUNT: int = 6
 COLUMN_COUNT: int = 7
@@ -56,6 +57,8 @@ board = createBoard()
 print(board)
 gameOver: bool = False
 turn: int = 0         # This defines whose turn it is to play 
+pygame.init()
+
 
 while not gameOver:
     # Ask for Player 1 Input
