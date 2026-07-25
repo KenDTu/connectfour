@@ -2,6 +2,7 @@
 import numpy as np
 import pygame
 import sys # permits sys.exit 
+import math # permits math operations
 
 # ===== Global static variables ===== 
 BLUE = (0, 0, 255) # RGB
@@ -96,10 +97,11 @@ while not gameOver:
             sys.exit()
         # READ MORE https://www.pygame.org/docs/ref/event.html#pygame.event.custom_type
         if event.type == pygame.MOUSEBUTTONDOWN:
-            continue
+            # print(event.pos)
             # Ask for Player 1 Input
             if turn == 0:
-                col = int(input("Player 1, make your selection (0-6)"))
+                posX = event.pos[0]
+                col = int(math.floor(posX/SQUARESIZE))
                 if isValidLocation(board,col):
                     row = getNextOpenRow(board, col)
                     dropPiece(board, row, col, 1)
@@ -111,10 +113,10 @@ while not gameOver:
                 else: 
                     turn += 1 # handles invalid placement error
 
-            # Ask for Player 2 Input
+            # # Ask for Player 2 Input
             else:
-                col = int(input("Player 2, make your selection (0-6)"))
-
+                posX = event.pos[0]
+                col = int(math.floor(posX/SQUARESIZE))
                 if isValidLocation(board,col):
                     row = getNextOpenRow(board, col)
                     dropPiece(board, row, col, 2)
