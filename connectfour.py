@@ -1,7 +1,11 @@
 # This program codes for a game of Connect Four on the terminal
 import numpy as np
 import pygame
+import sys # permits sys.exit 
 
+# ===== Global static variables ===== 
+BLUE = (0, 0, 255) # RGB
+BLACK = (0, 0, 0)
 ROW_COUNT: int = 6
 COLUMN_COUNT: int = 7
 
@@ -55,7 +59,13 @@ def winningMove(board, piece):
             
 # Draw the board to the pygame graphics
 def drawBoard(board):
-    pass
+    for c in range(COLUMN_COUNT):
+        for r in range(ROW_COUNT):
+            # documentation on draw.rect function 
+            # https://www.pygame.org/docs/ref/draw.html#pygame.draw.rect
+            # r*SQUARESIZE+SQUARESIZE offsets to provide the top black strip
+            pygame.draw.rect(screen, BLUE, (c*SQUARESIZE, r*SQUARESIZE+SQUARESIZE, SQUARESIZE, SQUARESIZE))
+            pygame.draw.circle(screen, BLACK, (int(c*SQUARESIZE+SQUARESIZE/2), int(r*SQUARESIZE+SQUARESIZE+SQUARESIZE/2)), RADIUS)
             
 board = createBoard()
 print(board)
@@ -71,42 +81,57 @@ height: int = (ROW_COUNT+1) * SQUARESIZE
 
 size: tuple = (width, height)
 
+RADIUS: int = int(SQUARESIZE/2- 5)
+
 screen = pygame.display.set_mode(size)
+drawBoard(board)
+pygame.display.update() # updates the display
 # ======== end of defining the screen size=======
 
 while not gameOver:
-    # Ask for Player 1 Input
-    if turn == 0:
-        col = int(input("Player 1, make your selection (0-6)"))
-        if isValidLocation(board,col):
-            row = getNextOpenRow(board, col)
-            dropPiece(board, row, col, 1)
-        
-            if winningMove(board, 1):
-                print("Player 1 wins! Congrats!")
-                gameOver = True
-                break
-        else: 
-            turn += 1 # handles invalid placement error
 
-    # Ask for Player 2 Input
-    else:
-        col = int(input("Player 2, make your selection (0-6)"))
+    # in pygame events are all computer inputs e.g. clicks, keys you press, how the mouse is moved etc...
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        # READ MORE https://www.pygame.org/docs/ref/event.html#pygame.event.custom_type
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            continue
+            # Ask for Player 1 Input
+            if turn == 0:
+                col = int(input("Player 1, make your selection (0-6)"))
+                if isValidLocation(board,col):
+                    row = getNextOpenRow(board, col)
+                    dropPiece(board, row, col, 1)
+                
+                    if winningMove(board, 1):
+                        print("Player 1 wins! Congrats!")
+                        gameOver = True
+                        break
+                else: 
+                    turn += 1 # handles invalid placement error
 
-        if isValidLocation(board,col):
-            row = getNextOpenRow(board, col)
-            dropPiece(board, row, col, 2)
-            
+            # Ask for Player 2 Input
+            else:
+                col = int(input("Player 2, make your selection (0-6)"))
 
-            if winningMove(board, 2):
-                print("Player 2 wins! Congrats!")
-                gameOver = True
-                break
-        else: 
-            turn += 1 # handles invalid placement error
+                if isValidLocation(board,col):
+                    row = getNextOpenRow(board, col)
+                    dropPiece(board, row, col, 2)
+                    
 
-    printBoard(board)
-    turn += 1
-    turn = turn % 2 # Mechanism to have the players switch turns
+                    if winningMove(board, 2):
+                        print("Player 2 wins! Congrats!")
+                        gameOver = True
+                        break
+                else: 
+                    turn += 1 # handles invalid placement error
+
+            printBoard(board)
+            turn += 1
+            turn = turn % 2 # Mechanism to have the players switch turns
+
+
+
 
 
