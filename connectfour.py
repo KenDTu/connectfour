@@ -101,7 +101,7 @@ drawBoard(board)
 pygame.display.update() # updates the display
 
 # documentation for font https://www.pygame.org/docs/ref/font.html#pygame.font.SysFont
-myfont = pygame.font.SysnFont("monospace", 75)
+myfont = pygame.font.SysFont("monospace", 75)
 # ======== end of defining the screen size=======
 
 while not gameOver:
