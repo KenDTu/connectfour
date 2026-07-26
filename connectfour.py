@@ -99,6 +99,9 @@ RADIUS: int = int(SQUARESIZE/2- 5)
 screen = pygame.display.set_mode(size)
 drawBoard(board)
 pygame.display.update() # updates the display
+
+# documentation for font https://www.pygame.org/docs/ref/font.html#pygame.font.SysFont
+myfont = pygame.font.SysnFont("monospace", 75)
 # ======== end of defining the screen size=======
 
 while not gameOver:
@@ -134,6 +137,8 @@ while not gameOver:
                     dropPiece(board, row, col, 1)
                 
                     if winningMove(board, 1):
+                        label = myfont.render("Player 1 wins!", 1, RED) # 1 is the axis
+                        screen.blit(label, (40,10)) # (40,10) is the (x,y) value | .blit updates this specific part of the screen
                         print("Player 1 wins! Congrats!")
                         gameOver = True
 
@@ -152,7 +157,7 @@ while not gameOver:
                     if winningMove(board, 2):
                         print("Player 2 wins! Congrats!")
                         gameOver = True
-                        
+
                 else: 
                     turn += 1 # handles invalid placement error
             drawBoard(board)
