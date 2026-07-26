@@ -160,6 +160,8 @@ while not gameOver:
             turn += 1
             turn = turn % 2 # Mechanism to have the players switch turns
 
+            if gameOver:
+                pygame.time.wait(3000) # time in milliseconds
 
 
 
