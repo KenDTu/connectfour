@@ -7,6 +7,8 @@ import math # permits math operations
 # ===== Global static variables ===== 
 BLUE = (0, 0, 255) # RGB
 BLACK = (0, 0, 0)
+RED = (255, 0, 0) # Player 1's color
+YELLOW = (255, 255, 0) # Player 2's color
 ROW_COUNT: int = 6
 COLUMN_COUNT: int = 7
 
@@ -67,7 +69,17 @@ def drawBoard(board):
             # r*SQUARESIZE+SQUARESIZE offsets to provide the top black strip
             pygame.draw.rect(screen, BLUE, (c*SQUARESIZE, r*SQUARESIZE+SQUARESIZE, SQUARESIZE, SQUARESIZE))
             pygame.draw.circle(screen, BLACK, (int(c*SQUARESIZE+SQUARESIZE/2), int(r*SQUARESIZE+SQUARESIZE+SQUARESIZE/2)), RADIUS)
-            
+
+    # Fill in the board with the correct colors for Player 1 and 2
+    for c in range(COLUMN_COUNT):
+        for r in range(ROW_COUNT):
+            if board[r][c] == 1:
+                pygame.draw.circle(screen, RED, (int(c*SQUARESIZE+SQUARESIZE/2), height-int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
+            elif board[r][c] == 2: 
+                pygame.draw.circle(screen, YELLOW, (int(c*SQUARESIZE+SQUARESIZE/2), height-int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
+
+    pygame.display.update() # rerender the display with the changes
+
 board = createBoard()
 print(board)
 gameOver: bool = False
@@ -96,8 +108,23 @@ while not gameOver:
         if event.type == pygame.QUIT:
             sys.exit()
         # READ MORE https://www.pygame.org/docs/ref/event.html#pygame.event.custom_type
+        
+        if event.type == pygame.MOUSEMOTION:
+            pygame.draw.rect(screen, BLACK, (0,0,width, SQUARESIZE))
+            posX = event.pos[0]
+            print(posX)
+            # print(event.pos)to check the X position for the cursor
+            if turn == 0:
+                # Draw for Player 1
+                pygame.draw.circle(screen, RED, (posX, int(SQUARESIZE/2)), RADIUS)
+            else:
+                # Draw for Player 2
+                pygame.draw.circle(screen, YELLOW, (posX, int(SQUARESIZE/2)), RADIUS)
+            
+        pygame.display.update()
+
         if event.type == pygame.MOUSEBUTTONDOWN:
-            # print(event.pos)
+            # print(event.pos[0]) # the X position
             # Ask for Player 1 Input
             if turn == 0:
                 posX = event.pos[0]
@@ -128,7 +155,7 @@ while not gameOver:
                         break
                 else: 
                     turn += 1 # handles invalid placement error
-
+            drawBoard(board)
             printBoard(board)
             turn += 1
             turn = turn % 2 # Mechanism to have the players switch turns
