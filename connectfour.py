@@ -24,6 +24,9 @@ def printBoard(board):
 # Drops the piece into column
 def dropPiece(board, row, col, piece):
     board[row][col] = piece
+    pygame.mixer.init()
+    sound = pygame.mixer.Sound("coindropsfx.wav")
+    sound.play()
 
 # Verifies that the column is a valid location for the piece
 def isValidLocation(board, col):
@@ -173,7 +176,6 @@ while not gameOver:
                 pygame.time.wait(2000)
                 pygame.mixer.init()
                 sound = pygame.mixer.Sound("effect.wav")
-                sound.set_volume(1.0)
                 sound.play()
 
                 pygame.time.wait(4000)
