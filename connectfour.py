@@ -136,7 +136,7 @@ while not gameOver:
                     if winningMove(board, 1):
                         print("Player 1 wins! Congrats!")
                         gameOver = True
-                        break
+
                 else: 
                     turn += 1 # handles invalid placement error
 
@@ -152,7 +152,7 @@ while not gameOver:
                     if winningMove(board, 2):
                         print("Player 2 wins! Congrats!")
                         gameOver = True
-                        break
+                        
                 else: 
                     turn += 1 # handles invalid placement error
             drawBoard(board)
@@ -161,8 +161,7 @@ while not gameOver:
             turn = turn % 2 # Mechanism to have the players switch turns
 
             if gameOver:
-                pygame.time.wait(3000) # time in milliseconds
-
+                pygame.time.wait(3000)
 
 
 
