@@ -127,6 +127,7 @@ while not gameOver:
         pygame.display.update()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
+            pygame.draw.rect(screen, BLACK, (0,0,width, SQUARESIZE))
             # print(event.pos[0]) # the X position
             # Ask for Player 1 Input
             if turn == 0:
@@ -155,6 +156,8 @@ while not gameOver:
                     
 
                     if winningMove(board, 2):
+                        label = myfont.render("Player 2 wins!", 1, YELLOW) # 1 is the axis
+                        screen.blit(label, (40,10)) # (40,10) is the (x,y) value | .blit updates this specific part of the screen
                         print("Player 2 wins! Congrats!")
                         gameOver = True
 
