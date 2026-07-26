@@ -169,7 +169,12 @@ while not gameOver:
             turn = turn % 2 # Mechanism to have the players switch turns
 
             if gameOver:
-                pygame.time.wait(3000)
+                # plays a victory sound
+                pygame.time.wait(2000)
+                pygame.mixer.init()
+                sound = pygame.mixer.Sound("effect.wav")
+                sound.set_volume(1.0)
+                sound.play()
 
-
-
+                pygame.time.wait(4000)
+                
