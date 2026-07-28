@@ -9,12 +9,17 @@ BLUE = (0, 0, 255) # RGB
 BLACK = (0, 0, 0)
 RED = (255, 0, 0) # Player 1's color
 YELLOW = (255, 255, 0) # Player 2's color
+OPENINGCOLOUR = (0, 138, 0)
 ROW_COUNT: int = 6
 COLUMN_COUNT: int = 7
 
 # Create the Connect Four Board
 def createBoard():
     board = np.zeros((ROW_COUNT, COLUMN_COUNT))
+    pygame.mixer.init() 
+    sound = pygame.mixer.Sound("opening.wav") 
+    sound.play()
+    
     return board
 
 # Flips the board so the piece build upwards
@@ -25,8 +30,12 @@ def printBoard(board):
 def dropPiece(board, row, col, piece):
     board[row][col] = piece
     pygame.mixer.init()
-    sound = pygame.mixer.Sound("coindropsfx.wav")
-    sound.play()
+    if piece == 1:
+        sound = pygame.mixer.Sound("coindropsfx1.wav")
+        sound.play()
+    else:
+        sound = pygame.mixer.Sound("coindropsfx2.wav")
+        sound.play()
 
 # Verifies that the column is a valid location for the piece
 def isValidLocation(board, col):
@@ -105,6 +114,10 @@ pygame.display.update() # updates the display
 
 # documentation for font https://www.pygame.org/docs/ref/font.html#pygame.font.SysFont
 myfont = pygame.font.SysFont("monospace", 75)
+
+openingLabel = myfont.render("Connect Four!", 1, OPENINGCOLOUR) # 1 is the axis
+screen.blit(openingLabel, (40,10)) # (40,10) is the (x,y) value | .blit updates this specific part of the screen
+
 # ======== end of defining the screen size=======
 
 while not gameOver:
